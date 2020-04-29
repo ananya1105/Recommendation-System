@@ -1,0 +1,49 @@
+We have imported packages like pandas, numpy, seaborn, sklearn(for preprocesssing,sigmod_kernel and text feature extraction) and matplotlib.
+
+We have considered two datasets credits and movies
+credit dataset - {shape:(4803,4), columns:[movie_id,title,cast,crew]}
+movies dataset - {shape:(4803,20), columns : [budget, genres, homepage, id, keywords, original_language, original_title, overview, popularity, production_companies,production_countries, release_date, revenue, runtime,spoken_languages, status, tagline, title, vote_average,vote_count] }
+
+Movies null values- [homepage : 3091, tagline : 844,overview : 3, release_date : 1, runtime : 2]
+Credits has no null values
+
+weighted_rating for a movie = (V*R + M*C)/(V+M)
+[V:Total number of votes given to a movie, R: The rating of the movie, M: Minimum number of votes required to be in top 250, C: Mean Rating across whole report]
+
+As we have calculated the weighted average, We would like to know the top 20 movies based on weighted average
+1. Sorted the records in the descending order based on weighted average of the movies
+2. We want to plot a figure of dimension 16x8 which we have initialized using figure
+3. We have plotted a bar chart using seaborn library of python, x-axis contains top 20 weighted ratings in descending order, y-axis contains top 20 movies based on average weights
+4. We have defined the x-axis label, y-axis label and the title in bold.
+
+
+Now we will plot a bar-chart for movies based on popularity
+1. Sort the records based on popularity column in descending order
+2. Initialize the figure dimension(16X8) using plt.figure's figsize argument
+3. X-axis contains first 20 popularity values and y-axis contains corresponding original names of the movies
+4. We have set the title as well as x and y labels as bold
+5. Lastly, we have saved the figure using plt's savefig
+
+
+
+We would like to design a recommendation system based on popularity and weighted_rating, for that we will derive a score based on 60% popularity and 40% weighted average. The steps to derive the score are as follows:
+1. We need to scale the values because we don't want our model to get affected by bigger range columns
+2. We will use MinMaxScaler from sklearn.preprocessing. We will initialize a MinMaxScaler object
+3. We will fit_transform columns weighted_average and popularity, this will return a list of list(having values)
+4. Now, we will define a dataframe movies_norm with columns weighted_rating and popularity
+5. We will then formulate a score as a column in movies dataframe(orginal dataframe), where 60% weightage is given to popularity and 40% weightage to weighted_average
+6. Now, we will sort the records in the movies dataframe according to these values in the descending order
+7. A figure of dimension 16X8 is initialized using plt.figure's figsize argument.
+8. Bar graph is plotted using the seaborn library where x-axis contains the top 20 scores(based on popularity and weighted_average) and y-axis contains original names of the movies
+9. Now, we set the title, x-label and y-label, all in bold.
+10. Lastly, we save the figure using plt.savefig().
+
+
+
+
+Now we will design Content Based Recommendation System, for that we will use TfidfVectorizer from sklearn.featuer_extraction.text library
+1. Define a TfidfVectorizer object where word_frequency is 3, stop_words are english and n_gram range is between 1,3.
+2. There are null values in overview column(overview column in the movies dataset summarizes the plot of the movie), so we fill those values with empty string.
+3. Now we transform the overview column into tfidf matrix using fit_transform function of the TfidfVectorizer object.
+4. Shape of tfidf matrix is (4803, 10417).We are using sigmoid kernel to calculate the similarity scoreThen we are mapping indices to the original movie titles such that original movie titles are the index
+5.Then we define a funciton recommendation that takes movie title as the argument and sigmoid_kernel_similarity as default argument, dimension of sig is 4803x4803sig[1] will give us similarity scores of movie with index oneWe extract the index of the movie passed to the function using indices dataframeWe are enumerating the sig_scores at index 0 and then converting it to a listNow, we are sorting this list in the descending order on the basis of second content(index=1) of the tupuleNow, we are taking into consideration top 20 sig_scoresList movie indices contains index of movies with top 20 similarity scores.This function is returning the names of these top 20 movies
