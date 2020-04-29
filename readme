@@ -1,4 +1,4 @@
-We have imported packages like pandas, numpy, seaborn, sklearn(for preprocesssing,sigmod_kernel and text feature extraction) and matplotlib.
+We have imported packages pandas, numpy, seaborn, sklearn(for preprocesssing,sigmod_kernel and text feature extraction) and matplotlib.
 
 We have considered two datasets credits and movies
 credit dataset - {shape:(4803,4), columns:[movie_id,title,cast,crew]}
